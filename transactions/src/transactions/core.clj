@@ -2,9 +2,7 @@
   (:require [io.pedestal.http.route :as route]
             [java-time.local :as time]
             [io.pedestal.http :as http]
-            [io.pedestal.http.body-params :refer [body-params]]
-            [io.pedestal.interceptor :as i]
-            [clojure.data.json :as json]))
+            [io.pedestal.http.body-params :refer [body-params]]))
 
 (def transactions (atom []))
 
