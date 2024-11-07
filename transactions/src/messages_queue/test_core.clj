@@ -17,25 +17,31 @@
     (with-open [writer (io/writer test-file :append true)]
       (.write writer ""))
     (write "Test message" test-file)
-    (let [content (read-file test-file)]
+    (let [content (read-file test-file)
+          expected-prefix "Test message,"]
       (is (= 1 (count content)))
-      (is (= "Test message" (first content))))
+      (is (.startsWith (first content) expected-prefix)))
     (delete-file test-file)))
 
 (deftest test-write-many-messages
-  (let [test-file "test-messages.txt"]
+  (let [test-file "test-messages.txt"
+        message1 "Test message 1"
+        message2 "Test message 2"
+        message3 "Test message 3"
+        message4 "Test message 4"
+        ]
     (with-open [writer (io/writer test-file :append true)]
       (.write writer ""))
-    (write "Test message 1" test-file)
-    (write "Test message 2" test-file)
-    (write "Test message 3" test-file)
-    (write "Test message 4" test-file)
+    (write message1 test-file)
+    (write message2 test-file)
+    (write message3 test-file)
+    (write message4 test-file)
     (let [content (read-file test-file)]
       (is (= 4 (count content)))
-      (is (= "Test message 1" (first content)))
-      (is (= "Test message 2" (second content)))
-      (is (= "Test message 3" (nth content 2)))
-      (is (= "Test message 4" (nth content 3)))
+      (is (.startsWith (nth content 0) (str message1 ",")))
+      (is (.startsWith (nth content 1) (str message2 ",")))
+      (is (.startsWith (nth content 2) (str message3 ",")))
+      (is (.startsWith (nth content 3) (str message4 ",")))
       (delete-file test-file))))
 
 
