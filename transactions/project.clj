@@ -5,8 +5,9 @@
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [[org.clojure/clojure "1.11.1"]
                  [org.clojure/data.json "2.5.0"]
-                 [io.pedestal/pedestal.service "0.5.10"]
-                 [io.pedestal/pedestal.jetty "0.5.10"]
+                 [io.pedestal/pedestal.service "0.7.1"]
+                 [io.pedestal/pedestal.route "0.7.1"]
+                 [io.pedestal/pedestal.jetty "0.7.1"]
                  [clojure.java-time "1.4.2"]
                  [org.slf4j/slf4j-simple "1.7.28"]]
   :repl-options {:init-ns transactions.core})
