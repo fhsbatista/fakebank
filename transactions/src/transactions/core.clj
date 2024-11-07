@@ -2,12 +2,14 @@
   (:require [io.pedestal.http.route :as route]
             [java-time.local :as time]
             [io.pedestal.http :as http]
-            [io.pedestal.http.body-params :refer [body-params]]))
+            [io.pedestal.http.body-params :refer [body-params]]
+            [messages-queue.core :as messages]))
 
 (def transactions (atom []))
 
-(defn kafka-send [message]
-  (println "Mensagem enviada para o kafka: " message))
+(defn queue-message [message]
+  (messages/write message)
+  (println "Queued message: " message))
 
 (defn create-transaction [id value date]
   {:id    id
@@ -18,7 +20,7 @@
   (let [date (time/local-date-time)]
     (let [transaction (create-transaction id value date)]
       (swap! transactions conj transaction)
-      (kafka-send transaction))))
+      (queue-message transaction))))
 
 (defn post-transaction [context]
   (println context)
