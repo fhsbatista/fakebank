@@ -7,5 +7,6 @@
                  [org.clojure/data.json "2.5.0"]
                  [io.pedestal/pedestal.service "0.5.10"]
                  [io.pedestal/pedestal.jetty "0.5.10"]
-                 [clojure.java-time "1.4.2"]]
+                 [clojure.java-time "1.4.2"]
+                 [org.slf4j/slf4j-simple "1.7.28"]]
   :repl-options {:init-ns transactions.core})
