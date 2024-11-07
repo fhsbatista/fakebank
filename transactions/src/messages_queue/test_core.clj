@@ -44,6 +44,16 @@
       (is (.startsWith (nth content 3) (str message4 ",")))
       (delete-file test-file))))
 
+(deftest returns-next-message-on-queue
+  (let [test-file "test-messages.txt"
+        message1 "first message on queue"
+        message2 "second message on queue"]
+    (with-open [writer (io/writer test-file :append true)]
+      (.write writer ""))
+    (write message1 test-file)
+    (write message2 test-file)
+    (is (.startsWith (process-message test-file) (str message1 ",")))
+    (delete-file test-file)))
 
 
 
