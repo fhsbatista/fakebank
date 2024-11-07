@@ -1,7 +1,8 @@
 (ns messages_queue.test_core
   (:require [clojure.test :refer :all]
             [messages-queue.core :refer :all]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io]
+            [clojure.string :as str]))
 
 (defn read-file [filepath]
   (with-open [reader (io/reader filepath)]
@@ -53,6 +54,21 @@
     (write message1 test-file)
     (write message2 test-file)
     (is (.startsWith (process-message test-file) (str message1 ",")))
+    (delete-file test-file)))
+
+(deftest commit-message
+  (let [test-file "test-messages.txt"
+        message1 "first message on queue"
+        message2 "second message on queue"]
+    (with-open [writer (io/writer test-file :append true)]
+      (.write writer ""))
+    (write message1 test-file)
+    (write message2 test-file)
+    (let [message (process-message test-file)
+          message-id (second (str/split message #","))]
+      (commit message-id test-file)
+      (let [content (read-file test-file)]
+        (is (empty? (filter #(str/includes? % message-id) content)))))
     (delete-file test-file)))
 
 
