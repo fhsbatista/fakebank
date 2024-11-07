@@ -28,12 +28,9 @@
     (let [id (Integer. (get params :id))
           value (Double. (get params :value))]
       (register-transaction id value)
-      (assoc-in context [:response :status] 200)
-      (assoc-in context [:response :body]
-                (json/write-str {:status  "success"
-                                 :id      id
-                                 :value   value
-                                 :message "Transaction created successfully"})))))
+      {:status 200 :body {:message     "Transaction created"
+                          :transaction {:id    id
+                                        :value value}}})))
 
 (def routes
   (route/expand-routes
