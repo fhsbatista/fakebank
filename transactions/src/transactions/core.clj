@@ -22,21 +22,6 @@
       (swap! transactions conj transaction)
       (kafka-send transaction))))
 
-(def interceptor
-  (i/interceptor
-    {:name  :interceptor
-     :enter (fn [context]
-              (let [params (get-in context [:request :json-params])]
-                (let [id (Integer. (get params "id"))
-                      value (Double. (get params "value"))]
-                  (register-transaction id value)
-                  (assoc-in context [:response :status] 200)
-                  (assoc-in context [:response :body]
-                            (json/write-str {:status  "success"
-                                             :id      id
-                                             :value   value
-                                             :message "Transaction created successfully"})))))}))
-
 (defn post-transaction [context]
   (println context)
   (let [params (get-in context [:json-params])]
@@ -78,6 +63,3 @@
 (defn start []
   (start-server)
   (restart-server))
-
-
-(restart-server)
