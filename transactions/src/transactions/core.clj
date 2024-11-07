@@ -34,8 +34,7 @@
 
 (def routes
   (route/expand-routes
-    #{["/hello" :get (fn [request] {:status 200 :body "Hello world"}) :route-name :hello]
-      ["/transactions" :post [(body-params) post-transaction] :route-name :post-transaction]}))
+    #{["/transactions" :post [(body-params) post-transaction] :route-name :post-transaction]}))
 
 (def service
   {::http/routes routes
